@@ -164,7 +164,7 @@ class LoginHandler extends Component {
       return (
         <Root>
           <Head>
-            <title>Logging in...</title>
+            <title>Logging in... | Blast Analytics | Store</title>
           </Head>
           <LoginAnimation />
         </Root>

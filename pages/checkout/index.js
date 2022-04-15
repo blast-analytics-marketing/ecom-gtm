@@ -541,7 +541,7 @@ class CheckoutPage extends Component {
     return (
       <Root>
         <Head>
-          <title>Checkout</title>
+          <title>Checkout | Blast Analytics | Store</title>
         </Head>
 
         <div className="custom-container py-5 my-4 my-sm-5">

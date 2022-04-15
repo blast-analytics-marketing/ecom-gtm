@@ -6,7 +6,7 @@ import Footer from '../components/common/Footer';
 const About = () => (
   <Root>
     <Head>
-      <title>About | commerce</title>
+      <title>About | Blast Analytics | Store</title>
     </Head>
     <div className="about-container">
       {/* Row */}

@@ -269,7 +269,7 @@ class CustomerAccountPage extends Component {
     return (
       <Root>
         <Head>
-          <title>Account</title>
+          <title>Account | Blast Analytics | Store</title>
         </Head>
         <div className="account-container">
           <div className="custom-container py-5 my-4 my-sm-5">

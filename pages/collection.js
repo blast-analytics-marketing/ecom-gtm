@@ -9,7 +9,7 @@ import Footer from '../components/common/Footer';
 const Home = () => (
   <Root>
     <Head>
-      <title>Collection</title>
+      <title>Collection | Blast Analytics | Store</title>
     </Head>
     <Collections />
     <ExploreBanner />
