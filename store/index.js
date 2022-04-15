@@ -122,12 +122,27 @@ const devtools = (process.browser && window.__REDUX_DEVTOOLS_EXTENSION__)
   )
   : f => f;
 
+//Analytics middleware for GTM
+const analyticsMiddleware = () => next => action => {
+  const sendEvents = (...events) => {
+    const dataLayer = window.dataLayer || [];
+    dataLayer.push(...events);
+    window.dataLayer = dataLayer;
+  };
+  
+  const { type: event, payload: eventData } = action;
+
+  sendEvents({event, eventData});
+
+  return next(action);
+}
+
 // Create a makeStore function and pass in reducer to create the store
 const makeStore = () => {
   return createStore(
     reducer,
     initialState,
-    compose(applyMiddleware(thunk), devtools)
+    compose(applyMiddleware(thunk, analyticsMiddleware), devtools)
   );
 };
 
