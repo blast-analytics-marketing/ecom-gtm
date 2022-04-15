@@ -14,7 +14,7 @@ class ProductsBanner extends Component {
     const productsToDisplay = products.slice(0, 4);
     
     if(products.length > 0) {
-      dispatch(productImpressions(productsToDisplay, "PLP: Homepage Products"))
+      dispatch(productImpressions(productsToDisplay, 'PLP: Homepage Products'))
     }
 
     return (
