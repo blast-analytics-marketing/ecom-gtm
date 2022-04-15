@@ -3,6 +3,7 @@ import {
   PRODUCT_IMPRESSIONS,
   PRODUCT_CLICK,
   PRODUCT_DETAIL_VIEW,
+  ADD_TO_CART,
 } from './actionTypes';
 
 // Create all Analytics actions to be handled by the middleware, skips reducers
@@ -102,6 +103,40 @@ export const productClick = (products, position, id, list) => {
       eventAction: 'Product Click',
       eventLabel: id,
       nonInteractive: false,
+      ecommerce: ecomObj,
+      customMetrics: {},
+      customVariables: {},
+    },
+  }
+}
+
+/**
+ * Send the productDetailView, product data
+ */
+export const productDetailView = (product) => {
+  const { name, id, price, categories, variant_groups } = product;
+  const ecomObj =  {
+    currencyCode: "USD",
+    detail: {
+      products: [],
+    }
+  };
+  ecomObj.detail.products.push({
+    name,
+    id,
+    price: parseFloat(price.formatted),
+    brand: "Blast",
+    category: categories[0]?.name,
+    variant: `${variant_groups[0]?.name}: ${variant_groups[0]?.options[0]?.name}`,
+  });
+  return {
+    type: PRODUCT_DETAIL_VIEW,
+    payload: {
+      event: "productDetailView",
+      eventCategory: 'Enhanced Ecommerce',
+      eventAction: 'Product Detail View',
+      eventLabel: id,
+      nonInteractive: true,
       ecommerce: ecomObj,
       customMetrics: {},
       customVariables: {},
