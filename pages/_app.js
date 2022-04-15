@@ -35,17 +35,17 @@ const MyApp = ({Component, pageProps}) => {
     if(/\/account\/\[id\]/.test(router.pathname)) {
       gtmVirtualPageView({
         page: {
-          name: 'view order',
-          category: 'account',
-          url: router.pathname,
+          pageName: 'view order',
+          pageCategory: 'account',
+          pageUrl: router.pathname,
         },
       });
     } else {
       gtmVirtualPageView({
         page: {
-          name: pageProps.page || null,
-          category: pageProps.category || null,
-          url: router.pathname,
+          pageName: pageProps.page || null,
+          pageCategory: pageProps.category || null,
+          pageUrl: router.pathname,
         },
       });
     }
