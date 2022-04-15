@@ -3,14 +3,25 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import ProductRow from '../products/ProductRow';
 import { connect } from 'react-redux';
-import { productImpressions } from '../../store/actions/analyticsActions';
+import {
+  productImpressions,
+  productClick
+} from '../../store/actions/analyticsActions';
 
 
 class ProductsBanner extends Component {
+  constructor(props) {
+    super(props)
+    this.sendProductClick = this.sendProductClick.bind(this)
+  }
   componentDidUpdate(prevProps){
     if(prevProps.products !== this.props.products){
       this.props.dispatch(productImpressions(this.props.products.slice(0,4), 'PLP: Homepage Products'))
     }
+  }
+  sendProductClick(id, position) {
+    const products = this.props.products.filter((prod, i) => prod.id === id);
+    this.props.dispatch(productClick(products, position, id, 'PLP: Homepage Products'))
   }
   render() {
     const { products } = this.props;
@@ -34,7 +45,7 @@ class ProductsBanner extends Component {
             </a>
           </Link>
         </div>
-        <ProductRow products={products.slice(0, 4)} />
+        <ProductRow products={products.slice(0, 4)} productClick={this.sendProductClick}/>
       </div>
     );
   }

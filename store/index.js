@@ -135,6 +135,7 @@ const analyticsMiddleware = () => next => action => {
   switch(type) {
     case "VIRTUAL_PAGE_VIEW":
     case "PRODUCT_IMPRESSIONS":
+    case "PRODUCT_CLICK":
       sendEvents({...payload, _clear: true});
       break;
     case "SET_CUSTOMER":
