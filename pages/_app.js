@@ -7,11 +7,33 @@ import commerce from '../lib/commerce';
 import { loadStripe } from '@stripe/stripe-js';
 import { setCustomer } from '../store/actions/authenticateActions';
 import 'swiper/components/effect-fade/effect-fade.scss';
+import { useRouter } from 'next/router'
+
+const gtmVirtualPageView = (rest) => {
+  window.dataLayer?.push({
+    event: 'VirtualPageView',
+    ...rest,
+  });
+};
 
 const MyApp = ({Component, pageProps}) => {
 
   const store = useStore(pageProps.initialState);
   const [stripePromise, setStripePromise] = useState(null);
+  const router = useRouter()
+
+  useEffect(() => {
+    const mainDataLayer = {
+      page: {
+        name: pageProps.page || null,
+        category: pageProps.category || null,
+        url: router.pathname,
+      },
+    };
+
+    gtmVirtualPageView(mainDataLayer);
+
+  }, [pageProps])
 
   useEffect(() => {
     if (process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) { // has API key

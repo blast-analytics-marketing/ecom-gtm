@@ -18,4 +18,13 @@ const Home = () => (
   </Root>
 );
 
+export async function getStaticProps() {
+  return {
+    props: {
+      page: 'collection',
+      category: 'plp'
+    }, // is passed up to the custom app as pageProps
+  }
+}
+
 export default Home;

@@ -856,6 +856,15 @@ const InjectedCheckoutPage = (passProps) => {
   );
 };
 
+export async function getStaticProps() {
+  return {
+    props: {
+      page: 'checkout',
+      category: 'checkout'
+    }, // is passed up to the custom app as pageProps
+  }
+}
+
 export default withRouter(
   connect(
     ({ checkout: { checkoutTokenObject, shippingOptions }, cart, customer, orderReceipt }) => ({

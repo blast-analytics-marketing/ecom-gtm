@@ -13,4 +13,13 @@ function LoginPage() {
   return <LoginHandler />;
 }
 
+export async function getStaticProps() {
+  return {
+    props: {
+      page: 'login',
+      category: 'account'
+    }, // is passed up to the custom app as pageProps
+  }
+}
+
 export default LoginPage;

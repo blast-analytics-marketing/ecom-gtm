@@ -17,4 +17,13 @@ function Confirm() {
   )
 }
 
+export async function getStaticProps() {
+  return {
+    props: {
+      page: 'order confirm',
+      category: 'checkout'
+    }, // is passed up to the custom app as pageProps
+  }
+}
+
 export default Confirm;

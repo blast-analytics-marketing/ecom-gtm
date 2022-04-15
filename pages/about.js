@@ -139,4 +139,13 @@ const About = () => (
   </Root>
 );
 
+export async function getStaticProps() {
+  return {
+    props: {
+      page: 'about',
+      category: 'content'
+    }, // is passed up to the custom app as pageProps
+  }
+}
+
 export default About;

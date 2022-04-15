@@ -27,4 +27,13 @@ const LoggedOut = () => (
   </Root>
 );
 
+export async function getStaticProps() {
+  return {
+    props: {
+      page: 'logged out',
+      category: 'account'
+    }, // is passed up to the custom app as pageProps
+  }
+}
+
 export default LoggedOut;

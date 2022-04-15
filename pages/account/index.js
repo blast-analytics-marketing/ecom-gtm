@@ -324,6 +324,15 @@ const mapStateToProps = (state) => {
   };
 };
 
+export async function getStaticProps() {
+  return {
+    props: {
+      page: 'order history',
+      category: 'account'
+    }, // is passed up to the custom app as pageProps
+  }
+}
+
 export default withRouter(
   connect(
     mapStateToProps,

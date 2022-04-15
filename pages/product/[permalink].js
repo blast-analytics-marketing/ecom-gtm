@@ -140,3 +140,20 @@ export default function Product() {
   </Root>
   );
 }
+
+export const getStaticPaths = async () => {
+
+  return {
+      paths: [], //indicates that no page needs be created at build time
+      fallback: 'blocking' //indicates the type of fallback
+  }
+}
+
+export async function getStaticProps({params: {permalink}}) {
+  return {
+    props: {
+      page: permalink,
+      category: 'pdp'
+    }, // is passed up to the custom app as pageProps
+  }
+}
