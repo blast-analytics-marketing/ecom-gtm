@@ -130,9 +130,35 @@ const analyticsMiddleware = () => next => action => {
     window.dataLayer = dataLayer;
   };
   
-  const { type: event, payload: eventData } = action;
+  const { type, payload } = action;
 
-  sendEvents({event, eventData, _clear: true});
+  switch(type) {
+    case "VIRTUAL_PAGE_VIEW":
+      sendEvents({...payload, _clear: true});
+      break;
+    case "SET_CUSTOMER":
+      sendEvents({
+        event: "loadUserData",
+        user: {
+          userID: payload.id,
+          loggedIn: payload.isLoggedIn,
+        },
+        _clear: true,
+      });
+      break;
+    case "CLEAR_CUSTOMER":
+      sendEvents({
+        event: "loadUserData",
+        user: {
+          loggedIn: false,
+        },
+        _clear: true,
+      });
+      break;
+    default:
+      sendEvents({event: type, payload, _clear: true});
+      break;
+  }
 
   return next(action);
 }

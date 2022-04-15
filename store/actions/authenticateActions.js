@@ -13,6 +13,7 @@ export const setCustomer = () => (dispatch) => {
     return Promise.resolve(null);
   }
   return commerce.customer.about().then((customer) => {
+    customer.isLoggedIn = isLoggedIn;
     dispatch({ type: SET_CUSTOMER, payload: customer });
   }).catch(() => {
     // Most likely a 404, meaning the customer doesn't exist. It should be logged out
