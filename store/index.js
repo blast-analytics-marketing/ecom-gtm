@@ -136,6 +136,7 @@ const analyticsMiddleware = () => next => action => {
     case "VIRTUAL_PAGE_VIEW":
     case "PRODUCT_IMPRESSIONS":
     case "PRODUCT_CLICK":
+    case "PRODUCT_DETAIL_VIEW":
       sendEvents({...payload, _clear: true});
       break;
     case "SET_CUSTOMER":
@@ -156,6 +157,38 @@ const analyticsMiddleware = () => next => action => {
         },
         _clear: true,
       });
+      break;
+    case "ADD_TO_CART_SUCCESS":
+      const { 
+        product_name,
+        product_id,
+        line_total,
+        quantity
+      } = payload;
+      const ecomObj =  {
+        currencyCode: payload.cart.currency.code,
+        add: {
+          products: [{
+            name: product_name,
+            id: product_id,
+            price: line_total / quantity,
+            quantity: 1,
+            brand: "Blast",
+            category: null,
+            variant: null,
+          }],
+        }
+      };
+      sendEvents({
+        event: "addToCart",
+        eventCategory: 'Enhanced Ecommerce',
+        eventAction: 'Add to Cart',
+        eventLabel: product_id,
+        nonInteractive: false,
+        ecommerce: ecomObj,
+        customMetrics: {},
+        customVariables: {},
+      })
       break;
     default:
       sendEvents({event: type, payload, _clear: true});
