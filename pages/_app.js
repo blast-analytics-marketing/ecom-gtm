@@ -8,6 +8,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { setCustomer } from '../store/actions/authenticateActions';
 import 'swiper/components/effect-fade/effect-fade.scss';
 import { useRouter } from 'next/router'
+import { route } from 'next/dist/server/router';
 
 const gtmVirtualPageView = (rest) => {
   window.dataLayer?.push({
@@ -23,15 +24,31 @@ const MyApp = ({Component, pageProps}) => {
   const router = useRouter()
 
   useEffect(() => {
-    const mainDataLayer = {
-      page: {
-        name: pageProps.page || null,
-        category: pageProps.category || null,
-        url: router.pathname,
-      },
-    };
+    // view order page data layer is built using the router.pathname
+    // because it's not possible to get the details from getStaticProps
+    // because getStaticProps and a dynamic route requires getStaticPaths
+    // and getStaticPaths is incompatible with next export when using fallback: 'blocking' || true
+    // but when settings fallback: false in getStaticPaths we need to specify the paths array of paths that exist
+    // but this isn't possible serer-side because the list of paths are the list of the customers orders and that method is protected
+    // unless the user is authenticated on the client side
+    if(/\/account\/\[id\]/.test(router.pathname)) {
+      gtmVirtualPageView({
+        page: {
+          name: 'view order',
+          category: 'account',
+          url: router.pathname,
+        },
+      });
+    } else {
+      gtmVirtualPageView({
+        page: {
+          name: pageProps.page || null,
+          category: pageProps.category || null,
+          url: router.pathname,
+        },
+      });
+    }
 
-    gtmVirtualPageView(mainDataLayer);
 
   }, [pageProps])
 

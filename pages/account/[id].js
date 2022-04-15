@@ -280,20 +280,3 @@ export default function SingleOrderPage() {
     </Root>
   );
 }
-
-export const getStaticPaths = async () => {
-
-  return {
-      paths: [], //indicates that no page needs be created at build time
-      fallback: 'blocking' //indicates the type of fallback
-  }
-}
-
-export async function getStaticProps() {
-  return {
-    props: {
-      page: 'view order',
-      category: 'account'
-    }, // is passed up to the custom app as pageProps
-  }
-}

@@ -142,10 +142,16 @@ export default function Product() {
 }
 
 export const getStaticPaths = async () => {
-
+  const products = await commerce.products.list();
   return {
-      paths: [], //indicates that no page needs be created at build time
-      fallback: 'blocking' //indicates the type of fallback
+      paths:  products.data.map(prod => {
+        return {
+          params: {
+            permalink: prod.permalink
+          }
+        }
+      }), //indicates that no page needs be created at build time
+      fallback: false //indicates the type of fallback
   }
 }
 
