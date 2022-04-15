@@ -3,10 +3,19 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import ProductRow from '../products/ProductRow';
 import { connect } from 'react-redux';
+import { productImpressions } from '../../store/actions/analyticsActions';
+
 
 class ProductsBanner extends Component {
+  componentDidMount() {
+  }
   render() {
-    const { products } = this.props;
+    const { products, dispatch } = this.props;
+    const productsToDisplay = products.slice(0, 4);
+    
+    if(products.length > 0) {
+      dispatch(productImpressions(productsToDisplay, "PLP: Homepage Products"))
+    }
 
     return (
       <div className="custom-container py-5 my-5">
@@ -27,7 +36,7 @@ class ProductsBanner extends Component {
             </a>
           </Link>
         </div>
-        <ProductRow products={products.slice(0, 4)} />
+        <ProductRow products={productsToDisplay} />
       </div>
     );
   }

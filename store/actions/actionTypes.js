@@ -28,4 +28,5 @@ export const CLEAR_CUSTOMER = 'CLEAR_CUSTOMER';
 
 //Define analytics action types
 export const VIRTUAL_PAGE_VIEW = "VIRTUAL_PAGE_VIEW";
+export const PRODUCT_IMPRESSIONS = "PRODUCT_IMPRESSIONS";
 
