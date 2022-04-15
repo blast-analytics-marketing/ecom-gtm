@@ -132,7 +132,7 @@ const analyticsMiddleware = () => next => action => {
   
   const { type: event, payload: eventData } = action;
 
-  sendEvents({event, eventData});
+  sendEvents({event, eventData, _clear: true});
 
   return next(action);
 }

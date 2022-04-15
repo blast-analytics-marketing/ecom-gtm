@@ -13,6 +13,7 @@ import { route } from 'next/dist/server/router';
 const gtmVirtualPageView = (rest) => {
   window.dataLayer?.push({
     event: 'VirtualPageView',
+    _clear: true,
     ...rest,
   });
 };
