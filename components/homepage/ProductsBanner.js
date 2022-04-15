@@ -7,16 +7,14 @@ import { productImpressions } from '../../store/actions/analyticsActions';
 
 
 class ProductsBanner extends Component {
-  componentDidMount() {
+  componentDidUpdate(prevProps){
+    if(prevProps.products !== this.props.products){
+      this.props.dispatch(productImpressions(this.props.products.slice(0,4), 'PLP: Homepage Products'))
+    }
   }
   render() {
-    const { products, dispatch } = this.props;
-    const productsToDisplay = products.slice(0, 4);
+    const { products } = this.props;
     
-    if(products.length > 0) {
-      dispatch(productImpressions(productsToDisplay, 'PLP: Homepage Products'))
-    }
-
     return (
       <div className="custom-container py-5 my-5">
         <div className="d-flex flex-column align-items-center mb-5 pb-4">
@@ -36,7 +34,7 @@ class ProductsBanner extends Component {
             </a>
           </Link>
         </div>
-        <ProductRow products={productsToDisplay} />
+        <ProductRow products={products.slice(0, 4)} />
       </div>
     );
   }
