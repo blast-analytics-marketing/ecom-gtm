@@ -5,6 +5,9 @@ import {
   PRODUCT_DETAIL_VIEW,
   TRACK_ADD_TO_CART,
   TRACK_REMOVE_FROM_CART,
+  TRACK_CHECKOUT_CART,
+  TRACK_CHECKOUT_SHIPPING_PAYMENT,
+  TRACK_CHECKOUT_OPTION,
 } from './actionTypes';
 
 // Create all Analytics actions to be handled by the middleware, skips reducers
@@ -220,6 +223,129 @@ export const trackRemoveFromCart = (product, quantity, selectedOption) => {
       eventAction: 'Remove from Cart',
       eventLabel: id,
       nonInteractive: false,
+      ecommerce: ecomObj,
+      customMetrics: {},
+      customVariables: {},
+    },
+  }
+}
+
+/**
+ * Send the checkout cart, product data
+ */
+export const trackCheckoutCart = (products) => {
+  const ecomObj =  {
+    currencyCode: "USD",
+    checkout: {
+      actionField: {
+        step: 1,
+      },
+      products: [],
+    }
+  };
+  ecomObj.checkout.products = products.map((
+    {
+      name,
+      id,
+      price,
+      quantity,
+      categories,
+      variant_groups,
+      selected_options,
+    }
+  ) => {
+    return {
+      name,
+      id,
+      price: parseFloat(price.formatted),
+      quantity,
+      brand: "Blast",
+      category: categories.map(cat => cat.name).sort().join(','),
+      variant: selected_options.map(({group_name, option_name}) => `${group_name}: ${option_name}`).sort().join(),
+    }
+  });
+  return {
+    type: TRACK_CHECKOUT_CART,
+    payload: {
+      event: "checkout",
+      eventCategory: 'Enhanced Ecommerce',
+      eventAction: 'Checkout',
+      eventLabel: undefined,
+      nonInteractive: true,
+      ecommerce: ecomObj,
+      customMetrics: {},
+      customVariables: {},
+    },
+  }
+}
+
+/**
+ * Send the checkout shipping payment, product data
+ */
+export const trackCheckoutShippingPayment = (product, quantity, selectedOption) => {
+  const { name, id, price, categories, variant_groups } = product;
+  const variantId = Object.keys(selectedOption)[0];
+  const variant_option_id = selectedOption[Object.keys(selectedOption)[0]];
+  const variant = variant_groups.find(variant => variant.id === variantId);
+  const variant_name = variant?.name;
+  const variant_option = variant?.options.find(option => option.id === variant_option_id);
+  const variant_option_name = variant_option?.name;
+  const ecomObj =  {
+    currencyCode: "USD",
+    checkout: {
+      actionField: {
+        step: 2,
+        option: "",
+      },
+      products: [],
+    }
+  };
+  ecomObj.checkout.products.push({
+    name,
+    id,
+    price: parseFloat(price.formatted),
+    brand: "Blast",
+    category: categories.map(cat => cat.name).sort().join(','),
+    variant: `${variant_name}: ${variant_option_name}`,
+    quantity,
+  });
+  return {
+    type: TRACK_CHECKOUT_SHIPPING_PAYMENT,
+    payload: {
+      event: "checkout",
+      eventCategory: 'Enhanced Ecommerce',
+      eventAction: 'Checkout',
+      eventLabel: undefined,
+      nonInteractive: true,
+      ecommerce: ecomObj,
+      customMetrics: {},
+      customVariables: {},
+    },
+  }
+}
+
+/**
+ * Send the checkout option, product data
+ */
+export const trackCheckoutOption = (product, quantity, selectedOption) => {
+  const { name, id, price, categories, variant_groups } = product;
+  const ecomObj =  {
+    currencyCode: "USD",
+    checkout: {
+      actionField: {
+        step: 2,
+        option: "",
+      },
+    }
+  };
+  return {
+    type: TRACK_CHECKOUT_OPTION,
+    payload: {
+      event: "checkout",
+      eventCategory: 'Enhanced Ecommerce',
+      eventAction: 'Checkout Option',
+      eventLabel: "", //option,
+      nonInteractive: true,
       ecommerce: ecomObj,
       customMetrics: {},
       customVariables: {},

@@ -139,6 +139,7 @@ const analyticsMiddleware = () => next => action => {
     case "PRODUCT_DETAIL_VIEW":
     case "TRACK_ADD_TO_CART":
     case "TRACK_REMOVE_FROM_CART":
+    case "TRACK_CHECKOUT_CART":
       sendEvents({...payload, _clear: true});
       break;
     case "SET_CUSTOMER":
