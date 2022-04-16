@@ -100,13 +100,13 @@ export const updateCartItemError = (error) => {
 /**
  * Async update cart item
  */
-export const updateCartItem = (lineItemId, newQuantity, oldQuantity, variant, fullProdData) => (dispatch) => commerce.cart.update(lineItemId, { quantity: newQuantity })
+export const updateCartItem = (lineItemId, newQuantity, oldQuantity, selected_options, fullProdData) => (dispatch) => commerce.cart.update(lineItemId, { quantity: newQuantity })
   .then(item => {
     dispatch(updateCartItemSuccess(item))
     if(newQuantity > oldQuantity) {
-      dispatch(trackAddToCart(fullProdData, newQuantity-oldQuantity, variant.options));
+      dispatch(trackAddToCart(fullProdData, newQuantity-oldQuantity, selected_options));
     } else if(newQuantity < oldQuantity) {
-      dispatch(trackRemoveFromCart(fullProdData, oldQuantity-newQuantity, variant.options));
+      dispatch(trackRemoveFromCart(fullProdData, oldQuantity-newQuantity, selected_options));
     }
   })
   .catch(error => dispatch(updateCartItemError(error)));
@@ -134,9 +134,9 @@ export const removeFromCartError = (error) => {
 /**
  * Async remove cart item
  */
-export const removeFromCart = (lineItemId, quantity, variant, fullProdData) => (dispatch) => commerce.cart.remove(lineItemId)
+export const removeFromCart = (lineItemId, quantity, selected_options, fullProdData) => (dispatch) => commerce.cart.remove(lineItemId)
   .then(resp => {
     dispatch(removeFromCartSuccess(resp))
-    dispatch(trackRemoveFromCart(fullProdData, quantity, variant.options))
+    dispatch(trackRemoveFromCart(fullProdData, quantity, selected_options))
   })
   .catch(error => dispatch(removeFromCartError(error)));

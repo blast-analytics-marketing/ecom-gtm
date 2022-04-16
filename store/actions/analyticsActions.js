@@ -154,14 +154,23 @@ export const productDetailView = (product) => {
 /**
  * Send the addToCart, product data
  */
-export const trackAddToCart = (product, quantity, selectedOption) => {
+export const trackAddToCart = (product, quantity, selected_options) => {
   const { name, id, price, categories, variant_groups } = product;
-  const variantId = Object.keys(selectedOption)[0];
-  const variant_option_id = selectedOption[Object.keys(selectedOption)[0]];
-  const variant = variant_groups.find(variant => variant.id === variantId);
-  const variant_name = variant?.name;
-  const variant_option = variant?.options.find(option => option.id === variant_option_id);
-  const variant_option_name = variant_option?.name;
+  const createVariantFromGroups = (selectedOption) => {
+    const variantId = Object.keys(selectedOption)[0];
+    const variant_option_id = selectedOption[Object.keys(selectedOption)[0]];
+    const variant = variant_groups.find(variant => variant.id === variantId);
+    const variant_name = variant?.name;
+    const variant_option = variant?.options.find(option => option.id === variant_option_id);
+    const variant_option_name = variant_option?.name;
+    return `${variant_name}: ${variant_option_name}`
+  }
+  let variant = '';
+  if(selected_options[0]?.group_name) {
+    variant = selected_options.map(({group_name, option_name}) => `${group_name}: ${option_name}`).sort().join();
+  } else {
+    variant = createVariantFromGroups(selected_options);
+  }
   const ecomObj =  {
     currencyCode: "USD",
     add: {
@@ -174,7 +183,7 @@ export const trackAddToCart = (product, quantity, selectedOption) => {
     price: parseFloat(price.formatted),
     brand: "Blast",
     category: categories.map(cat => cat.name).sort().join(','),
-    variant: `${variant_name}: ${variant_option_name}`,
+    variant,
     quantity,
   });
   return {
@@ -195,14 +204,8 @@ export const trackAddToCart = (product, quantity, selectedOption) => {
 /**
  * Send the removeFromCart, product data
  */
-export const trackRemoveFromCart = (product, quantity, selectedOption) => {
-  const { name, id, price, categories, variant_groups } = product;
-  const variantId = Object.keys(selectedOption)[0];
-  const variant_option_id = selectedOption[Object.keys(selectedOption)[0]];
-  const variant = variant_groups.find(variant => variant.id === variantId);
-  const variant_name = variant?.name;
-  const variant_option = variant?.options.find(option => option.id === variant_option_id);
-  const variant_option_name = variant_option?.name;
+export const trackRemoveFromCart = (product, quantity, selected_options) => {
+  const { name, id, price, categories } = product;
   const ecomObj =  {
     currencyCode: "USD",
     remove: {
@@ -215,7 +218,7 @@ export const trackRemoveFromCart = (product, quantity, selectedOption) => {
     price: parseFloat(price.formatted),
     brand: "Blast",
     category: categories.map(cat => cat.name).sort().join(','),
-    variant: `${variant_name}: ${variant_option_name}`,
+    variant: selected_options.map(({group_name, option_name}) => `${group_name}: ${option_name}`).sort().join(),
     quantity,
   });
   return {
