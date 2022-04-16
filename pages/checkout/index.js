@@ -175,6 +175,8 @@ class CheckoutPage extends Component {
         this.state['shipping[country]'],
         this.state['shipping[region]']
       );
+      const trackedOption = this.props.shippingOptions.find(({id}) => id === this.state['fulfillment[shipping_method]']);
+      this.props.dispatchTrackCheckoutOption(trackedOption, this.props.cart.id);
     }
   }
 

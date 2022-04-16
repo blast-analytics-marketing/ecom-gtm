@@ -331,14 +331,15 @@ export const trackCheckoutShippingPayment = (products, cartId) => {
 /**
  * Send the checkout option, product data
  */
-export const trackCheckoutOption = (product, quantity, selectedOption) => {
-  const { name, id, price, categories, variant_groups } = product;
+export const trackCheckoutOption = (option, cartId) => {
+  const { description, price } = option;
   const ecomObj =  {
     currencyCode: "USD",
     checkout: {
       actionField: {
         step: 2,
-        option: "",
+        option: `${description} - ${price.formatted_with_code}`,
+        cartId,
       },
     }
   };
@@ -348,7 +349,7 @@ export const trackCheckoutOption = (product, quantity, selectedOption) => {
       event: "checkout",
       eventCategory: 'Enhanced Ecommerce',
       eventAction: 'Checkout Option',
-      eventLabel: "", //option,
+      eventLabel: `${description} - ${price.formatted_with_code}`,
       nonInteractive: true,
       ecommerce: ecomObj,
       customMetrics: {},
