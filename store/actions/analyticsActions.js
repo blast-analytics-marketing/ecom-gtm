@@ -11,6 +11,7 @@ import {
   TRACK_PURCHASE,
   TRACK_PROMOTION_IMPRESSION,
   TRACK_PROMOTION_CLICK,
+  TRACK_NAVIGATION_CLICK,
 } from './actionTypes';
 
 // Create all Analytics actions to be handled by the middleware, skips reducers
@@ -446,3 +447,20 @@ export const trackPromotionClick = (id, name, creative, position) => {
 }
 
 
+/**
+ * Send the navigation click, page data
+ */
+export const trackNavigationClick = (linkName) => {
+  return {
+    type: TRACK_NAVIGATION_CLICK,
+    payload: {
+      event: "loadEventData",
+      eventCategory: 'Navigation',
+      eventAction: 'Click',
+      eventLabel: linkName,
+      nonInteractive: false,
+      customMetrics: {},
+      customVariables: {},
+    },
+  }
+}

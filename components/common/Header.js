@@ -6,6 +6,7 @@ import Animation from '../cart/Animation';
 import { Transition } from 'react-transition-group';
 import { connect } from 'react-redux'
 import { clearCustomer } from '../../store/actions/authenticateActions';
+import { trackNavigationClick as dispatchTrackNavigationClick } from '../../store/actions/analyticsActions';
 
 const duration = 300;
 
@@ -89,6 +90,7 @@ class Header extends Component {
     this.setState({
       loggedIn: false,
     });
+    this.props.dispatchTrackNavigationClick("Logout")
   }
 
   animate() {
@@ -146,7 +148,7 @@ class Header extends Component {
             </span>
           ) }
           <Link href="/account">
-            <a className="font-color-black mx-2">
+            <a className="font-color-black mx-2" onClick={() => this.props.dispatchTrackNavigationClick("My Account")}>
               My account
             </a>
           </Link>
@@ -163,7 +165,7 @@ class Header extends Component {
 
     return (
       <Link href="/login">
-        <a className="font-color-black login">
+        <a className="font-color-black login" onClick={() => this.props.dispatchTrackNavigationClick("Login")}>
           Login
         </a>
       </Link>
@@ -185,10 +187,10 @@ class Header extends Component {
         >
           <div className="d-none d-sm-flex">
             <Link href="/collection">
-              <a className="mr-4 font-color-black">Shop</a>
+              <a className="mr-4 font-color-black" onClick={() => this.props.dispatchTrackNavigationClick("Shop")}>Shop</a>
             </Link>
             <Link href="/about">
-              <a className="font-color-black">About</a>
+              <a className="font-color-black" onClick={() => this.props.dispatchTrackNavigationClick("About")}>About</a>
             </Link>
           </div>
           <div className="logo-container">
@@ -199,7 +201,7 @@ class Header extends Component {
               alt="Menu icon"
             />
             <Link href="/">
-              <a>
+              <a onClick={() => this.props.dispatchTrackNavigationClick("Logo")}>
                 <img
                   src="/images/commerce.svg"
                   className="logo cursor-pointer"
@@ -243,7 +245,7 @@ class Header extends Component {
               >
                 {mobileMenuLinks.map((item, i) => (
                   <Link key={i} href={item.link}>
-                    <a className="d-block mb-4 font-size-heading font-color-white text-center">
+                    <a className="d-block mb-4 font-size-heading font-color-white text-center" onClick={() => this.props.dispatchTrackNavigationClick(item.name)}>
                       {item.name}
                     </a>
                   </Link>
@@ -259,5 +261,5 @@ class Header extends Component {
 
 export default connect(
   state => state,
-  { clearCustomer },
+  { clearCustomer, dispatchTrackNavigationClick },
 )(Header);
