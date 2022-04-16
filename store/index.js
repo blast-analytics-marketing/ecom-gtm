@@ -166,7 +166,7 @@ const analyticsMiddleware = () => next => action => {
       });
       break;
     default:
-      sendEvents({event: type, payload, _clear: true});
+      //sendEvents({event: type, payload, _clear: true});
       break;
   }
 
