@@ -8,6 +8,7 @@ import {
   TRACK_CHECKOUT_CART,
   TRACK_CHECKOUT_SHIPPING_PAYMENT,
   TRACK_CHECKOUT_OPTION,
+  TRACK_PURCHASE,
 } from './actionTypes';
 
 // Create all Analytics actions to be handled by the middleware, skips reducers
@@ -350,6 +351,63 @@ export const trackCheckoutOption = (option, cartId) => {
       eventCategory: 'Enhanced Ecommerce',
       eventAction: 'Checkout Option',
       eventLabel: `${description} - ${price.formatted_with_code}`,
+      nonInteractive: false,
+      ecommerce: ecomObj,
+      customMetrics: {},
+      customVariables: {},
+    },
+  }
+}
+
+/**
+ * Send the purchase, product data
+ */
+export const trackPurchase = (products, orderReceipt) => {
+  const ecomObj =  {
+    currencyCode: orderReceipt.currency.code,
+    purchase: {
+      actionField: {
+        id: orderReceipt.id,
+        affiliation: orderReceipt.merchant.business_name,
+        revenue: orderReceipt.order_value.formatted,
+        tax: orderReceipt.tax.amount.formatted,
+        shipping: orderReceipt.order.shipping.price.formatted,
+        coupon: orderReceipt.order.discount.code,
+        cartId: orderReceipt.cart_id,
+        paymentType: orderReceipt.transactions.map(trans => {
+          return trans.payment_source.brand
+        }).sort().join()
+      },
+      products: [],
+    }
+  };
+  ecomObj.purchase.products = products.map((
+    {
+      name,
+      id,
+      price,
+      quantity,
+      categories,
+      selected_options,
+    }
+  ) => {
+    return {
+      name,
+      id,
+      price: parseFloat(price.formatted),
+      quantity,
+      brand: "Blast",
+      category: categories.map(cat => cat.name).sort().join(','),
+      variant: selected_options.map(({variant_name, option_name}) => `${variant_name}: ${option_name}`).sort().join(),
+    }
+  });
+  return {
+    type: TRACK_PURCHASE,
+    payload: {
+      event: "purchase",
+      eventCategory: 'Enhanced Ecommerce',
+      eventAction: 'Purchase',
+      eventLabel: undefined,
       nonInteractive: true,
       ecommerce: ecomObj,
       customMetrics: {},

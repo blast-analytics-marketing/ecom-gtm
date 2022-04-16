@@ -3,6 +3,7 @@ import Root from '../../components/common/Root';
 import Link from 'next/link';
 import { connect } from 'react-redux';
 import { withRouter } from 'next/router';
+import { trackPurchase } from '../../store/actions/analyticsActions';
 
 class Confirm extends Component {
   constructor(props) {
@@ -15,6 +16,14 @@ class Confirm extends Component {
     if (!this.props.orderReceipt) {
       this.props.router.push('/');
     }
+    console.log(this.props)
+    const fullProdData = this.props.orderReceipt.order.line_items.map(({product_id, quantity, variants}) => {
+      let product = this.props.products.find(({id}) => id === product_id)
+      product.quantity = quantity;
+      product.selected_options = variants;
+      return product;
+    });
+    this.props.dispatch(trackPurchase(fullProdData, this.props.orderReceipt))
   }
 
   /**
