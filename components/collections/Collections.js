@@ -3,19 +3,39 @@ import Link from 'next/link';
 import Head from 'next/head';
 import { connect } from 'react-redux';
 import ProductCard from '../products/ProductCard';
+import {
+  productImpressions,
+  productClick
+} from '../../store/actions/analyticsActions';
 
 class Collections extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      concatProducts: []
+    }
 
     this.sidebar = React.createRef();
     this.page = React.createRef();
 
     this.handleScroll = this.handleScroll.bind(this);
+    this.sendProductClick = this.sendProductClick.bind(this)
   }
 
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll);
+
+  }
+
+  componentDidUpdate(prevProps){
+    if(prevProps.products !== this.props.products){
+      this.setState({
+        concatProducts: [].concat(...this.props.categories.map(({slug}) => {
+          return this.filterProductsByCat(slug).map(({id}) => id)
+        }))
+      })
+      this.props.dispatch(productImpressions(this.props.products, 'PLP: Shop All'));
+    }
   }
 
   componentWillUnmount() {
@@ -40,6 +60,11 @@ class Collections extends Component {
     };
 
     window.requestAnimationFrame(animate);
+  }
+
+  sendProductClick(id, position) {
+    const products = this.props.products.filter((prod, i) => prod.id === id);
+    this.props.dispatch(productClick(products, position, id, 'PLP: Shop All'))
   }
 
   renderSidebar() {
@@ -96,24 +121,26 @@ class Collections extends Component {
   renderCollection() {
     const { categories } = this.props;
     const reg = /(<([^>]+)>)/ig;
-
     return (
       <div className="collection">
-        {categories.map(category => (
+        {categories.map((category) => (
           <div key={category.id}>
               <p className="font-size-title font-weight-medium mb-4" id={category.slug}>
                 {category.name}
               </p>
               <div className="row mb-5 collection-1">
-                { this.filterProductsByCat(category.slug).map(product => (
+                { this.filterProductsByCat(category.slug).map((product) => (
                   <div key={product.id} className="col-6 col-sm-4 col-md-3">
                     <ProductCard
                       permalink={product.permalink}
                       image={product.media.source}
+                      id={product.id}
                       name={product.name}
                       price={product.price.formatted_with_symbol}
                       description={product.description && product.description.replace(reg, '')}
                       soldOut={product.is.sold_out}
+                      position={this.state.concatProducts.indexOf(product.id) + 1}
+                      productClick={this.sendProductClick}
                     />
                   </div>
                 ))}
