@@ -10,6 +10,9 @@ import {
   REMOVE_FROM_CART_SUCCESS,
   REMOVE_FROM_CART_ERROR
 } from './actionTypes';
+import {
+  trackAddToCart
+} from "./analyticsActions";
 
 // Create all Cart actions, define the callbacks to the reducers
 
@@ -66,8 +69,11 @@ export const addToCartError = (error) => {
 /**
  * Async add product to cart
  */
-export const addToCart = (productId, quantity, selectedOption) => (dispatch) => commerce.cart.add(productId, quantity, selectedOption)
-  .then(product => dispatch(addToCartSuccess(product)))
+export const addToCart = (productId, quantity, selectedOption, fullProdData) => (dispatch) => commerce.cart.add(productId, quantity, selectedOption)
+  .then(product => {
+    dispatch(addToCartSuccess(product))
+    dispatch(trackAddToCart(fullProdData, quantity, selectedOption))
+  })
   .catch(error => dispatch(addToCartError(error)));
 
 

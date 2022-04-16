@@ -113,7 +113,7 @@ class ProductDetail extends Component {
   handleAddToCart() {
     const { product } = this.props
     const { selectedOptions } = this.state;
-    this.props.dispatch(addToCart(product.id, 1, selectedOptions))
+    this.props.dispatch(addToCart(product.id, 1, selectedOptions, product))
   }
 
   render() {
