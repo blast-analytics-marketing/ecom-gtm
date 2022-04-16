@@ -50,14 +50,18 @@ class Cart extends Component {
   }
 
   onEntering() {
-    disableBodyScroll(this.cartScroll.current);
-    const fullProdData = this.props.cart.line_items.map(({product_id, quantity, selected_options}) => {
-      let product = this.props.products.find(({id}) => id === product_id)
-      product.quantity = quantity;
-      product.selected_options = selected_options;
-      return product;
-    });
-    this.props.dispatchTrackCheckoutCart(fullProdData, this.props.cart.id);
+    try {
+      disableBodyScroll(this.cartScroll.current);
+      const fullProdData = this.props.cart.line_items.map(({product_id, quantity, selected_options}) => {
+        let product = this.props.products.find(({id}) => id === product_id)
+        product.quantity = quantity;
+        product.selected_options = selected_options;
+        return product;
+      });
+      this.props.dispatchTrackCheckoutCart(fullProdData, this.props.cart.id);
+    } catch(err) {
+      console.error(err);
+    }
   }
 
   onExiting() {
