@@ -108,13 +108,15 @@ class CheckoutPage extends Component {
     if (this.props.cart && this.props.cart.total_items === 0) {
       this.redirectOutOfCheckout()
     }
-    const fullProdData = this.props.cart.line_items.map(({product_id, quantity, selected_options}) => {
-      let product = this.props.products.find(({id}) => id === product_id)
-      product.quantity = quantity;
-      product.selected_options = selected_options;
-      return product;
-    });
-    this.props.dispatchTrackCheckoutShippingPayment(fullProdData, this.props.cart.id);
+    if(this.props.products.length > 0) {
+      const fullProdData = this.props.cart.line_items.map(({product_id, quantity, selected_options}) => {
+        let product = this.props.products.find(({id}) => id === product_id)
+        product.quantity = quantity;
+        product.selected_options = selected_options;
+        return product;
+      });
+      this.props.dispatchTrackCheckoutShippingPayment(fullProdData, this.props.cart.id);
+    }
 
     this.updateCustomerFromRedux();
     // on initial mount generate checkout token object from the cart,
@@ -131,6 +133,16 @@ class CheckoutPage extends Component {
       })
       // regenerate checkout token object since cart has been updated
       this.generateToken();
+    }
+
+    if(prevProps.products !== this.props.products) {
+      const fullProdData = this.props.cart.line_items.map(({product_id, quantity, selected_options}) => {
+        let product = this.props.products.find(({id}) => id === product_id)
+        product.quantity = quantity;
+        product.selected_options = selected_options;
+        return product;
+      });
+      this.props.dispatchTrackCheckoutShippingPayment(fullProdData, this.props.cart.id);
     }
 
     if (this.props.customer && !prevProps.customer) {
