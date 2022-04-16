@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { connect } from 'react-redux';
+import { trackPromotionClick as dispatchTrackPromotionClick} from '../../store/actions/analyticsActions';
 
 class CategoryBanner extends Component {
-
   render() {
     const { categories } = this.props;
-
     return (
       <div className="bg-brand300 py-5 collection-banner">
         <div className="custom-container py-5">
@@ -22,7 +21,7 @@ class CategoryBanner extends Component {
                 className="col-12 col-md-4 collection-item mb-5"
               >
                 <Link href={`/collection#${item.slug}`} key={item.id}>
-                  <a className="align-items-center font-color-black flex-column cursor-pointer mb-5">
+                  <a className="align-items-center font-color-black flex-column cursor-pointer mb-5" onClick={() => this.props.dispatchTrackPromotionClick(item.id, item.name, item.meta.image, index+1)}>
                     <div>
                       { item.meta?.image && (
                         <div
@@ -55,4 +54,4 @@ CategoryBanner.defaultProps = {
   categories: [],
 };
 
-export default connect(state => state)(CategoryBanner);
+export default connect(state => state, {dispatchTrackPromotionClick})(CategoryBanner);

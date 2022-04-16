@@ -2,6 +2,8 @@ import React from 'react';
 import { Autoplay, EffectFade, Swiper as SwiperCore } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Link from 'next/link';
+import { connect } from 'react-redux';
+import { trackPromotionClick as dispatchTrackPromotionClick} from '../../store/actions/analyticsActions';
 
 const params = {
   slidesPerView: 1,
@@ -24,7 +26,7 @@ const images = [
   '/images/home-4.jpg',
 ];
 
-export default function HeroSection() {
+function HeroSection(props) {
   SwiperCore.use([Autoplay, EffectFade]);
   return (
     <div className="hero-section position-relative">
@@ -44,7 +46,9 @@ export default function HeroSection() {
                 A range of products for you
               </p>
               <Link href="/collection">
-                <a className="d-flex align-items-center bg-transparent border border-color-white h-56 px-5 font-color-white hero-btn">
+                <a
+                  className="d-flex align-items-center bg-transparent border border-color-white h-56 px-5 font-color-white hero-btn"
+                  onClick={() => props.dispatchTrackPromotionClick(`home-${index+1}`, `Home ${index+1}`, image, index+1)}>
                   Shop now
                 </a>
               </Link>
@@ -55,3 +59,5 @@ export default function HeroSection() {
     </div>
   );
 }
+
+export default connect(state => state, {dispatchTrackPromotionClick})(HeroSection)

@@ -1,5 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
+import { connect } from 'react-redux';
+import { trackPromotionClick as dispatchTrackPromotionClick} from '../../store/actions/analyticsActions';
 
 const imagesInfo = [
   {
@@ -24,7 +26,7 @@ const imagesInfo = [
   }
 ];
 
-export default class SocialMedia extends React.Component {
+class SocialMedia extends React.Component {
   constructor(props) {
     super(props);
 
@@ -83,7 +85,8 @@ export default class SocialMedia extends React.Component {
               </p>
               <div className="d-flex">
                 <Link href="/about">
-                  <a className="d-flex py-3 align-items-center font-color-black borderbottom border-color-black">
+                  <a className="d-flex py-3 align-items-center font-color-black borderbottom border-color-black"
+                    onClick={() => this.props.dispatchTrackPromotionClick('social-media', 'Follow Instagram', imagesInfo.map(({image}) => image).sort().join(), this.props.location)}>
                     <p className="mr-3">Follow us</p>
                     <img src="/icon/arrow-long-right.svg" alt="Arrow icon"/>
                   </a>
@@ -109,3 +112,5 @@ export default class SocialMedia extends React.Component {
     );
   }
 }
+
+export default connect(state => state, {dispatchTrackPromotionClick})(SocialMedia)

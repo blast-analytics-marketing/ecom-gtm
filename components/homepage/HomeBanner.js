@@ -1,7 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
+import { connect } from 'react-redux';
+import { trackPromotionClick as dispatchTrackPromotionClick} from '../../store/actions/analyticsActions';
 
-export default function HomeBanner() {
+function HomeBanner(props) {
   return (
     <div className="p-5">
       <p
@@ -12,7 +14,9 @@ export default function HomeBanner() {
       </p>
       <div className="d-flex align-items-center justify-content-center mt-3 mb-5">
         <Link href="/about">
-          <a className="d-flex py-3 align-items-center font-color-black borderbottom border-color-black">
+          <a
+            className="d-flex py-3 align-items-center font-color-black borderbottom border-color-black"
+            onClick={() => props.dispatchTrackPromotionClick('about', 'About Link', 'none', 'below-hero')}>
             <p className="mr-3">Find out more</p>
             <img src="/icon/arrow-long-right.svg" />
           </a>
@@ -21,3 +25,5 @@ export default function HomeBanner() {
     </div>
   );
 }
+
+export default connect(state => state, {dispatchTrackPromotionClick})(HomeBanner)

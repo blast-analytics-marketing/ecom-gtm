@@ -134,8 +134,8 @@ export default function Product() {
 
     <ClientReview />
     <SuggestedProducts />
-    <ExploreBanner />
-    <SocialMedia />
+    <ExploreBanner location={`PDP: ${product.name}`}/>
+    <SocialMedia location={`PDP: ${product.name}`}/>
     <Footer />
   </Root>
   );

@@ -9,6 +9,8 @@ import {
   TRACK_CHECKOUT_SHIPPING_PAYMENT,
   TRACK_CHECKOUT_OPTION,
   TRACK_PURCHASE,
+  TRACK_PROMOTION_IMPRESSION,
+  TRACK_PROMOTION_CLICK,
 } from './actionTypes';
 
 // Create all Analytics actions to be handled by the middleware, skips reducers
@@ -415,3 +417,29 @@ export const trackPurchase = (products, orderReceipt) => {
     },
   }
 }
+
+/**
+ * Send the promotion click, promotion data
+ */
+export const trackPromotionClick = (id, name, creative, position) => {
+  const ecomObj =  {
+    promoClick: {
+      promotions: [id, name, creative, position]
+    }
+  };
+  return {
+    type: TRACK_PROMOTION_CLICK,
+    payload: {
+      event: "promotionClick",
+      eventCategory: 'Enhanced Ecommerce',
+      eventAction: 'Promotion Click',
+      eventLabel: undefined,
+      nonInteractive: false,
+      ecommerce: ecomObj,
+      customMetrics: {},
+      customVariables: {},
+    },
+  }
+}
+
+

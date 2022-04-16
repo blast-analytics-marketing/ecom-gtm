@@ -1,7 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
+import { connect } from 'react-redux';
+import { trackPromotionClick as dispatchTrackPromotionClick} from '../../store/actions/analyticsActions';
 
-export default class ExploreBanner extends React.Component {
+class ExploreBanner extends React.Component {
   constructor(props) {
     super(props);
 
@@ -77,7 +79,8 @@ export default class ExploreBanner extends React.Component {
                 </p>
                 <div className="d-flex">
                   <Link href="/collection">
-                    <a className="d-flex py-3 align-items-center font-color-black borderbottom border-color-black">
+                    <a className="d-flex py-3 align-items-center font-color-black borderbottom border-color-black"
+                      onClick={() => this.props.dispatchTrackPromotionClick('explore-banner', 'Explore Banner', '/images/explore-banner.png', this.props.location)}>
                       <p className="mr-3">Explore products</p>
                       <img src="/icon/arrow-long-right.svg" />
                     </a>
@@ -91,3 +94,5 @@ export default class ExploreBanner extends React.Component {
     );
   }
 }
+
+export default connect(state => state, {dispatchTrackPromotionClick})(ExploreBanner)

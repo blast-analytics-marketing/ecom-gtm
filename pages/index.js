@@ -19,8 +19,8 @@ const Home = () => (
     <HomeBanner />
     <CategoryBanner />
     <ProductsBanner />
-    <ExploreBanner />
-    <SocialMedia />
+    <ExploreBanner location="home"/>
+    <SocialMedia location="home"/>
     <Footer />
   </Root>
 );

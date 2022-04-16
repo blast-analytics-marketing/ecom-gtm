@@ -12,8 +12,8 @@ const Home = () => (
       <title>Collection | Blast Analytics | Store</title>
     </Head>
     <Collections />
-    <ExploreBanner />
-    <SocialMedia />
+    <ExploreBanner location="PLP: Shop All"/>
+    <SocialMedia location="PLP: Shop All"/>
     <Footer />
   </Root>
 );
