@@ -158,7 +158,7 @@ export const getStaticPaths = async () => {
 export async function getStaticProps({params: {permalink}}) {
   return {
     props: {
-      page: permalink.split('-').map(item => item.charAt(0).toUpperCase() + item.slice(1)).join(" "),
+      page: permalink.split('-').map(item => item.charAt(0).toUpperCase() + item.slice(1)).join(' '),
       category: 'PDP'
     }, // is passed up to the custom app as pageProps
   }
