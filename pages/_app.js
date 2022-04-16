@@ -74,7 +74,6 @@ const MyApp = ({Component, pageProps}) => {
     });
 
   }, [store])
-
   return (
     <Provider store={store}>
       <Component

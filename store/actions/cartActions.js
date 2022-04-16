@@ -11,7 +11,7 @@ import {
   REMOVE_FROM_CART_ERROR
 } from './actionTypes';
 import {
-  trackAddToCart
+  trackAddToCart, trackRemoveFromCart
 } from "./analyticsActions";
 
 // Create all Cart actions, define the callbacks to the reducers
@@ -100,8 +100,15 @@ export const updateCartItemError = (error) => {
 /**
  * Async update cart item
  */
-export const updateCartItem = (lineItemId, quantity) => (dispatch) => commerce.cart.update(lineItemId, { quantity })
-  .then(item => dispatch(updateCartItemSuccess(item)))
+export const updateCartItem = (lineItemId, newQuantity, oldQuantity, variant, fullProdData) => (dispatch) => commerce.cart.update(lineItemId, { quantity: newQuantity })
+  .then(item => {
+    dispatch(updateCartItemSuccess(item))
+    if(newQuantity > oldQuantity) {
+      dispatch(trackAddToCart(fullProdData, newQuantity-oldQuantity, variant.options));
+    } else if(newQuantity < oldQuantity) {
+      dispatch(trackRemoveFromCart(fullProdData, oldQuantity-newQuantity, variant.options));
+    }
+  })
   .catch(error => dispatch(updateCartItemError(error)));
 
 /**
@@ -127,6 +134,9 @@ export const removeFromCartError = (error) => {
 /**
  * Async remove cart item
  */
-export const removeFromCart = (lineItemId) => (dispatch) => commerce.cart.remove(lineItemId)
-  .then(resp => dispatch(removeFromCartSuccess(resp)))
+export const removeFromCart = (lineItemId, quantity, variant, fullProdData) => (dispatch) => commerce.cart.remove(lineItemId)
+  .then(resp => {
+    dispatch(removeFromCartSuccess(resp))
+    dispatch(trackRemoveFromCart(fullProdData, quantity, variant.options))
+  })
   .catch(error => dispatch(removeFromCartError(error)));

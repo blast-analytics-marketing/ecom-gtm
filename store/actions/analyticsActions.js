@@ -4,6 +4,7 @@ import {
   PRODUCT_CLICK,
   PRODUCT_DETAIL_VIEW,
   TRACK_ADD_TO_CART,
+  TRACK_REMOVE_FROM_CART,
 } from './actionTypes';
 
 // Create all Analytics actions to be handled by the middleware, skips reducers
@@ -176,6 +177,47 @@ export const trackAddToCart = (product, quantity, selectedOption) => {
       event: "addToCart",
       eventCategory: 'Enhanced Ecommerce',
       eventAction: 'Add to Cart',
+      eventLabel: id,
+      nonInteractive: false,
+      ecommerce: ecomObj,
+      customMetrics: {},
+      customVariables: {},
+    },
+  }
+}
+
+/**
+ * Send the removeFromCart, product data
+ */
+export const trackRemoveFromCart = (product, quantity, selectedOption) => {
+  const { name, id, price, categories, variant_groups } = product;
+  const variantId = Object.keys(selectedOption)[0];
+  const variant_option_id = selectedOption[Object.keys(selectedOption)[0]];
+  const variant = variant_groups.find(variant => variant.id === variantId);
+  const variant_name = variant?.name;
+  const variant_option = variant?.options.find(option => option.id === variant_option_id);
+  const variant_option_name = variant_option?.name;
+  const ecomObj =  {
+    currencyCode: "USD",
+    remove: {
+      products: [],
+    }
+  };
+  ecomObj.remove.products.push({
+    name,
+    id,
+    price: parseFloat(price.formatted),
+    brand: "Blast",
+    category: categories.map(cat => cat.name).sort().join(','),
+    variant: `${variant_name}: ${variant_option_name}`,
+    quantity,
+  });
+  return {
+    type: TRACK_REMOVE_FROM_CART,
+    payload: {
+      event: "removeFromCart",
+      eventCategory: 'Enhanced Ecommerce',
+      eventAction: 'Remove from Cart',
       eventLabel: id,
       nonInteractive: false,
       ecommerce: ecomObj,
