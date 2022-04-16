@@ -28,6 +28,7 @@ class ProductDetail extends Component {
     if (!prevProps.product || prevProps.product.id !== this.props.product.id) {
       // Product was changed, reset selected variant group options
       this.setSelectedOptions();
+      this.props.dispatch(productDetailView(this.props.product))
     }
   }
 
