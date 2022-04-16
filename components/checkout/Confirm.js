@@ -15,15 +15,15 @@ class Confirm extends Component {
   componentDidMount() {
     if (!this.props.orderReceipt) {
       this.props.router.push('/');
+    } else if(this.props.orderReceipt) {
+      const fullProdData = this.props.orderReceipt.order.line_items.map(({product_id, quantity, variants}) => {
+        let product = this.props.products.find(({id}) => id === product_id)
+        product.quantity = quantity;
+        product.selected_options = variants;
+        return product;
+      });
+      this.props.dispatch(trackPurchase(fullProdData, this.props.orderReceipt))
     }
-    console.log(this.props)
-    const fullProdData = this.props.orderReceipt.order.line_items.map(({product_id, quantity, variants}) => {
-      let product = this.props.products.find(({id}) => id === product_id)
-      product.quantity = quantity;
-      product.selected_options = variants;
-      return product;
-    });
-    this.props.dispatch(trackPurchase(fullProdData, this.props.orderReceipt))
   }
 
   /**
