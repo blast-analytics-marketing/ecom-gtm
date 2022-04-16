@@ -16,8 +16,8 @@ function LoginPage() {
 export async function getStaticProps() {
   return {
     props: {
-      page: 'login',
-      category: 'account'
+      page: 'Login',
+      category: 'Account'
     }, // is passed up to the custom app as pageProps
   }
 }

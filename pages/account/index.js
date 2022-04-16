@@ -327,8 +327,8 @@ const mapStateToProps = (state) => {
 export async function getStaticProps() {
   return {
     props: {
-      page: 'order history',
-      category: 'account'
+      page: 'Order History',
+      category: 'Account'
     }, // is passed up to the custom app as pageProps
   }
 }

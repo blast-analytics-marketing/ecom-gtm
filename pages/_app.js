@@ -36,8 +36,8 @@ const MyApp = ({Component, pageProps}) => {
     let pageData = {};
     if(/\/account\/\[id\]/.test(router.pathname)) {
       pageData = {
-        pageName: 'view order',
-        pageCategory: 'account',
+        pageName: 'View Order',
+        pageCategory: 'Account',
         pageUrl: router.pathname,
       };
     } else {

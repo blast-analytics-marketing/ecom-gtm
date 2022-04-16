@@ -30,8 +30,8 @@ const LoggedOut = () => (
 export async function getStaticProps() {
   return {
     props: {
-      page: 'logged out',
-      category: 'account'
+      page: 'Logged Out',
+      category: 'Account'
     }, // is passed up to the custom app as pageProps
   }
 }

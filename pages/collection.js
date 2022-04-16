@@ -21,8 +21,8 @@ const Home = () => (
 export async function getStaticProps() {
   return {
     props: {
-      page: 'collection',
-      category: 'plp'
+      page: 'Shop All',
+      category: 'PLP'
     }, // is passed up to the custom app as pageProps
   }
 }

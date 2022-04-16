@@ -884,8 +884,8 @@ const InjectedCheckoutPage = (passProps) => {
 export async function getStaticProps() {
   return {
     props: {
-      page: 'checkout',
-      category: 'checkout'
+      page: 'Checkout',
+      category: 'Checkout'
     }, // is passed up to the custom app as pageProps
   }
 }
