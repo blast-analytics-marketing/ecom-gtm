@@ -57,7 +57,7 @@ class Cart extends Component {
       product.selected_options = selected_options;
       return product;
     });
-    this.props.dispatchTrackCheckoutCart(fullProdData);
+    this.props.dispatchTrackCheckoutCart(fullProdData, this.props.cart.id);
   }
 
   onExiting() {

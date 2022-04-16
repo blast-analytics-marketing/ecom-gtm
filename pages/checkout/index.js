@@ -21,6 +21,10 @@ import {
 import { connect } from 'react-redux';
 import { withRouter } from 'next/router';
 import { CardElement, Elements, ElementsConsumer } from '@stripe/react-stripe-js';
+import {
+  trackCheckoutShippingPayment as dispatchTrackCheckoutShippingPayment,
+  trackCheckoutOption as dispatchTrackCheckoutOption,
+} from '../../store/actions/analyticsActions';
 
 const billingOptions = ['Same as shipping Address', 'Use a different billing address'];
 
@@ -104,6 +108,13 @@ class CheckoutPage extends Component {
     if (this.props.cart && this.props.cart.total_items === 0) {
       this.redirectOutOfCheckout()
     }
+    const fullProdData = this.props.cart.line_items.map(({product_id, quantity, selected_options}) => {
+      let product = this.props.products.find(({id}) => id === product_id)
+      product.quantity = quantity;
+      product.selected_options = selected_options;
+      return product;
+    });
+    this.props.dispatchTrackCheckoutShippingPayment(fullProdData, this.props.cart.id);
 
     this.updateCustomerFromRedux();
     // on initial mount generate checkout token object from the cart,
@@ -867,12 +878,13 @@ export async function getStaticProps() {
 
 export default withRouter(
   connect(
-    ({ checkout: { checkoutTokenObject, shippingOptions }, cart, customer, orderReceipt }) => ({
+    ({ checkout: { checkoutTokenObject, shippingOptions }, cart, customer, orderReceipt, products }) => ({
       checkout: checkoutTokenObject,
       customer,
       shippingOptions,
       cart,
       orderReceipt,
+      products,
     }),
     {
       dispatchGenerateCheckout,
@@ -880,6 +892,8 @@ export default withRouter(
       dispatchSetShippingOptionsInCheckout,
       dispatchSetDiscountCodeInCheckout,
       dispatchCaptureOrder,
+      dispatchTrackCheckoutShippingPayment,
+      dispatchTrackCheckoutOption,
     },
   )(InjectedCheckoutPage),
 );
