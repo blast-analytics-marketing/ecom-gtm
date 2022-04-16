@@ -19,9 +19,9 @@ class ProductsBanner extends Component {
       this.props.dispatch(productImpressions(this.props.products.slice(0,4), 'PLP: Homepage Products'))
     }
   }
-  sendProductClick(id, position) {
-    const products = this.props.products.filter((prod, i) => prod.id === id);
-    this.props.dispatch(productClick(products, position, id, 'PLP: Homepage Products'))
+  sendProductClick(id, name, position) {
+    const products = this.props.products.filter(prod => prod.id === id);
+    this.props.dispatch(productClick(products, position, name, 'PLP: Homepage Products'))
   }
   render() {
     const { products } = this.props;

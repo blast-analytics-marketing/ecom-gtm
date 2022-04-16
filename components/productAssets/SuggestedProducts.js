@@ -17,9 +17,9 @@ class SuggestedProducts extends Component {
       this.props.dispatch(productImpressions(this.props.products.slice(0,4), 'Suggested Products'))
     }
   }
-  sendProductClick(id, position) {
-    const products = this.props.products.filter((prod, i) => prod.id === id);
-    this.props.dispatch(productClick(products, position, id, 'Suggested Products'))
+  sendProductClick(id, name, position) {
+    const products = this.props.products.filter(prod => prod.id === id);
+    this.props.dispatch(productClick(products, position, name, 'Suggested Products'))
   }
   render() {
     const { products } = this.props;

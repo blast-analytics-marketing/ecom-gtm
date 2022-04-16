@@ -4,7 +4,7 @@ import Link from 'next/link';
 export default function ProductCard({ permalink, image, id, name, description, price, soldOut, position, productClick}) {
   return (
     <Link href="/product/[permalink]" as={`/product/${permalink}`}>
-      <a className="mb-5 d-block font-color-black cursor-pointer" onClick={() => productClick(id, position)}>
+      <a className="mb-5 d-block font-color-black cursor-pointer" onClick={() => productClick(id, name, position)}>
         <div
           className="mb-3"
           style={{

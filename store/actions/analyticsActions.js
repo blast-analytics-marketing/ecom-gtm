@@ -75,7 +75,7 @@ export const productImpressions = (products, list) => {
 /**
  * Send the productClick, product data
  */
-export const productClick = (products, position, id, list) => {
+export const productClick = (products, position, name, list) => {
   const ecomObj =  {
     currencyCode: "USD",
     click: {
@@ -108,7 +108,7 @@ export const productClick = (products, position, id, list) => {
       event: "productClick",
       eventCategory: 'Enhanced Ecommerce',
       eventAction: 'Product Click',
-      eventLabel: id,
+      eventLabel: name,
       nonInteractive: false,
       ecommerce: ecomObj,
       customMetrics: {},
@@ -142,7 +142,7 @@ export const productDetailView = (product) => {
       event: "productDetailView",
       eventCategory: 'Enhanced Ecommerce',
       eventAction: 'Product Detail View',
-      eventLabel: id,
+      eventLabel: name,
       nonInteractive: true,
       ecommerce: ecomObj,
       customMetrics: {},
@@ -183,7 +183,7 @@ export const trackAddToCart = (product, quantity, selectedOption) => {
       event: "addToCart",
       eventCategory: 'Enhanced Ecommerce',
       eventAction: 'Add to Cart',
-      eventLabel: id,
+      eventLabel: name,
       nonInteractive: false,
       ecommerce: ecomObj,
       customMetrics: {},
@@ -224,7 +224,7 @@ export const trackRemoveFromCart = (product, quantity, selectedOption) => {
       event: "removeFromCart",
       eventCategory: 'Enhanced Ecommerce',
       eventAction: 'Remove from Cart',
-      eventLabel: id,
+      eventLabel: name,
       nonInteractive: false,
       ecommerce: ecomObj,
       customMetrics: {},

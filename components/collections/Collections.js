@@ -62,9 +62,9 @@ class Collections extends Component {
     window.requestAnimationFrame(animate);
   }
 
-  sendProductClick(id, position) {
-    const products = this.props.products.filter((prod, i) => prod.id === id);
-    this.props.dispatch(productClick(products, position, id, 'PLP: Shop All'))
+  sendProductClick(id, name, position) {
+    const products = this.props.products.filter(prod => prod.id === id);
+    this.props.dispatch(productClick(products, position, name, 'PLP: Shop All'))
   }
 
   renderSidebar() {
