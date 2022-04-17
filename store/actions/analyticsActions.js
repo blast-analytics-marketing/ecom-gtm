@@ -74,6 +74,16 @@ export const productImpressions = (products, list) => {
   }
 }
 
+/** 
+ * A thunk for product impressions so that firing the action returns a promise.
+ * We use this to sequence a state update in the collections component.
+ */
+export const doProductImpressions = (products, list) => (dispatch) => {
+  dispatch(productImpressions(products, list));
+  return Promise.resolve();
+};
+
+
 /**
  * Send the productClick, product data
  */

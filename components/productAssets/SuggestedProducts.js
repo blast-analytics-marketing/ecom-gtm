@@ -3,19 +3,33 @@ import PropTypes from 'prop-types';
 import ProductRow from '../products/ProductRow';
 import { connect } from 'react-redux';
 import {
-  productImpressions,
+  doProductImpressions,
   productClick
 } from '../../store/actions/analyticsActions';
 
 class SuggestedProducts extends Component {
   constructor(props) {
-    super(props)
+    super(props);
+    this.state = {
+      productListName: 'Suggested Products',
+      productImpressionsFired: false
+    }
+    this.handleProductImpressions = this.handleProductImpressions.bind(this);
     this.sendProductClick = this.sendProductClick.bind(this)
   }
-  componentDidUpdate(prevProps){
-    if(prevProps.products !== this.props.products){
-      this.props.dispatch(productImpressions(this.props.products.slice(0,4), 'Suggested Products'))
+  componentDidMount() {
+    if(this.props.products.length > 0) {
+      this.handleProductImpressions();
     }
+  }
+  componentDidUpdate(prevProps){
+    if(prevProps.products !== this.props.products && !this.state.productImpressionsFired){
+      this.handleProductImpressions();
+    }
+  }
+  handleProductImpressions() {
+    this.props.dispatch(doProductImpressions(this.props.products.slice(0,4), this.state.productListName))
+      .then(() => this.setState({productImpressionsFired: true}));
   }
   sendProductClick(id, name, position) {
     const products = this.props.products.filter(prod => prod.id === id);

@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { connect } from 'react-redux';
 import ProductCard from '../products/ProductCard';
 import {
-  productImpressions,
+  doProductImpressions,
   productClick
 } from '../../store/actions/analyticsActions';
 
@@ -12,29 +12,28 @@ class Collections extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      concatProducts: []
+      concatProducts: [],
+      productImpressionsFired: false
     }
 
     this.sidebar = React.createRef();
     this.page = React.createRef();
 
     this.handleScroll = this.handleScroll.bind(this);
-    this.sendProductClick = this.sendProductClick.bind(this)
+    this.handleProductImpressions = this.handleProductImpressions.bind(this);
+    this.sendProductClick = this.sendProductClick.bind(this);
   }
 
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll);
-
+    if(this.props.products.length > 0) {
+      this.handleProductImpressions();
+    }
   }
 
   componentDidUpdate(prevProps){
-    if(prevProps.products !== this.props.products){
-      this.setState({
-        concatProducts: [].concat(...this.props.categories.map(({slug}) => {
-          return this.filterProductsByCat(slug).map(({id}) => id)
-        }))
-      })
-      this.props.dispatch(productImpressions(this.props.products, 'PLP: Shop All'));
+    if(prevProps.products !== this.props.products && !this.state.productImpressionsFired){
+      this.handleProductImpressions();
     }
   }
 
@@ -60,6 +59,17 @@ class Collections extends Component {
     };
 
     window.requestAnimationFrame(animate);
+  }
+
+  handleProductImpressions() {
+    this.setState({
+      concatProducts: [].concat(...this.props.categories.map(({slug}) => {
+        return this.filterProductsByCat(slug).map(prod => prod)
+      }))
+    }, () => {
+      this.props.dispatch(doProductImpressions(this.state.concatProducts, 'PLP: Shop All'))
+        .then(() => this.setState({productImpressionsFired: true}));
+    })
   }
 
   sendProductClick(id, name, position) {
@@ -139,7 +149,7 @@ class Collections extends Component {
                       price={product.price.formatted_with_symbol}
                       description={product.description && product.description.replace(reg, '')}
                       soldOut={product.is.sold_out}
-                      position={this.state.concatProducts.indexOf(product.id) + 1}
+                      position={this.state.concatProducts.map(({id}) => id).indexOf(product.id) + 1}
                       productClick={this.sendProductClick}
                     />
                   </div>
