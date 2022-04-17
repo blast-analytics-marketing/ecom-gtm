@@ -90,7 +90,7 @@ class Header extends Component {
     this.setState({
       loggedIn: false,
     });
-    this.props.dispatchTrackNavigationClick("Logout")
+    this.props.dispatchTrackNavigationClick('Logout')
   }
 
   animate() {
@@ -148,7 +148,7 @@ class Header extends Component {
             </span>
           ) }
           <Link href="/account">
-            <a className="font-color-black mx-2" onClick={() => this.props.dispatchTrackNavigationClick("My Account")}>
+            <a className="font-color-black mx-2" onClick={() => this.props.dispatchTrackNavigationClick('My Account')}>
               My account
             </a>
           </Link>
@@ -165,7 +165,7 @@ class Header extends Component {
 
     return (
       <Link href="/login">
-        <a className="font-color-black login" onClick={() => this.props.dispatchTrackNavigationClick("Login")}>
+        <a className="font-color-black login" onClick={() => this.props.dispatchTrackNavigationClick('Login')}>
           Login
         </a>
       </Link>
@@ -187,10 +187,10 @@ class Header extends Component {
         >
           <div className="d-none d-sm-flex">
             <Link href="/collection">
-              <a className="mr-4 font-color-black" onClick={() => this.props.dispatchTrackNavigationClick("Shop")}>Shop</a>
+              <a className="mr-4 font-color-black" onClick={() => this.props.dispatchTrackNavigationClick('Shop')}>Shop</a>
             </Link>
             <Link href="/about">
-              <a className="font-color-black" onClick={() => this.props.dispatchTrackNavigationClick("About")}>About</a>
+              <a className="font-color-black" onClick={() => this.props.dispatchTrackNavigationClick('About')}>About</a>
             </Link>
           </div>
           <div className="logo-container">
@@ -201,7 +201,7 @@ class Header extends Component {
               alt="Menu icon"
             />
             <Link href="/">
-              <a onClick={() => this.props.dispatchTrackNavigationClick("Logo")}>
+              <a onClick={() => this.props.dispatchTrackNavigationClick('Logo')}>
                 <img
                   src="/images/commerce.svg"
                   className="logo cursor-pointer"
