@@ -145,6 +145,7 @@ const analyticsMiddleware = () => next => action => {
     case "TRACK_PURCHASE":
     case "TRACK_PROMOTION_CLICK":
     case "TRACK_NAVIGATION_CLICK":
+    case "TRACK_LOGIN":
       sendEvents({...payload, _clear: true});
       break;
     case "SET_CUSTOMER":

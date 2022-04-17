@@ -8,6 +8,7 @@ import commerce from '../../lib/commerce';
 import Root from '../../components/common/Root';
 import Footer from '../../components/common/Footer';
 import LoginAnimation from '../../components/customer/LoginAnimation';
+import { trackLogin as dispatchTrackLogin} from '../../store/actions/analyticsActions';
 
 class LoginHandler extends Component {
   constructor(props) {
@@ -41,7 +42,13 @@ class LoginHandler extends Component {
     commerce.customer.getToken(token)
       .then(() => {
         // Fetch customer details
-        return setCustomer().then(() => Router.push('/account'));
+        return setCustomer().then(() => {
+          //Login is tracked after set customer
+          //loadUserData is fired on set customer
+          //Therefore the UDO should be available for the login event
+          this.props.dispatchTrackLogin();
+          Router.push('/account')
+        });
       })
       .catch(() => {
         this.setState({
@@ -197,5 +204,5 @@ class LoginHandler extends Component {
 
 export default compose(
   withRouter,
-  connect(null, { setCustomer }) // function that returns wrapper
+  connect(null, { setCustomer, dispatchTrackLogin }) // function that returns wrapper
 )(LoginHandler);
