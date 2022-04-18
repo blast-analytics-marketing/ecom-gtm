@@ -53,7 +53,7 @@ export const productImpressions = (products, list) => {
       id,
       price: parseFloat(price.formatted),
       brand: "Blast",
-      category: categories.map(cat => cat.name).sort().join(','),
+      category: categories.map(cat => cat.name).sort().join('/'),
       variant: `${variant_groups[0]?.name}: ${variant_groups[0]?.options[0]?.name}`,
       list,
       position: index + 1
@@ -109,7 +109,7 @@ export const productClick = (products, position, name, list) => {
       id,
       price: parseFloat(price.formatted),
       brand: "Blast",
-      category: categories.map(cat => cat.name).sort().join(','),
+      category: categories.map(cat => cat.name).sort().join('/'),
       variant: `${variant_groups[0]?.name}: ${variant_groups[0]?.options[0]?.name}`,
       position
     }
@@ -145,7 +145,7 @@ export const productDetailView = (product) => {
     id,
     price: parseFloat(price.formatted),
     brand: "Blast",
-    category: categories.map(cat => cat.name).sort().join(','),
+    category: categories.map(cat => cat.name).sort().join('/'),
     variant: `${variant_groups[0]?.name}: ${variant_groups[0]?.options[0]?.name}`,
   });
   return {
@@ -194,7 +194,7 @@ export const trackAddToCart = (product, quantity, selected_options) => {
     id,
     price: parseFloat(price.formatted),
     brand: "Blast",
-    category: categories.map(cat => cat.name).sort().join(','),
+    category: categories.map(cat => cat.name).sort().join('/'),
     variant,
     quantity,
   });
@@ -229,7 +229,7 @@ export const trackRemoveFromCart = (product, quantity, selected_options) => {
     id,
     price: parseFloat(price.formatted),
     brand: "Blast",
-    category: categories.map(cat => cat.name).sort().join(','),
+    category: categories.map(cat => cat.name).sort().join('/'),
     variant: selected_options.map(({group_name, option_name}) => `${group_name}: ${option_name}`).sort().join(),
     quantity,
   });
@@ -278,7 +278,7 @@ export const trackCheckoutCart = (products, cartId) => {
       price: parseFloat(price.formatted),
       quantity,
       brand: "Blast",
-      category: categories.map(cat => cat.name).sort().join(','),
+      category: categories.map(cat => cat.name).sort().join('/'),
       variant: selected_options.map(({group_name, option_name}) => `${group_name}: ${option_name}`).sort().join(),
     }
   });
@@ -327,7 +327,7 @@ export const trackCheckoutShippingPayment = (products, cartId) => {
       price: parseFloat(price.formatted),
       quantity,
       brand: "Blast",
-      category: categories.map(cat => cat.name).sort().join(','),
+      category: categories.map(cat => cat.name).sort().join('/'),
       variant: selected_options.map(({group_name, option_name}) => `${group_name}: ${option_name}`).sort().join(),
     }
   });
@@ -414,7 +414,7 @@ export const trackPurchase = (products, orderReceipt) => {
       price: parseFloat(price.formatted),
       quantity,
       brand: "Blast",
-      category: categories.map(cat => cat.name).sort().join(','),
+      category: categories.map(cat => cat.name).sort().join('/'),
       variant: selected_options.map(({variant_name, option_name}) => `${variant_name}: ${option_name}`).sort().join(),
     }
   });
