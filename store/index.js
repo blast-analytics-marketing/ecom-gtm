@@ -18,6 +18,7 @@ import {
   ABORT_CHECKOUT,
   SET_CUSTOMER,
   CLEAR_CUSTOMER,
+  STORE_MERCHANT,
 } from './actions/actionTypes';
 
 let store
@@ -25,6 +26,7 @@ let store
 const initialState = {
   categories: [],
   products: [],
+  merchant: {},
   cart: {},
   checkout: {
     shippingOptions: [],
@@ -59,6 +61,10 @@ const reducer = (state = initialState, action) => {
     // Check if action dispatched is STORE_PRODUCTS and act on that
     case STORE_PRODUCTS:
       return { ...state, products: action.payload };
+    // Dispatch in App SSR
+    // Check if action dispatched is STORE_MERCHANT and act on that
+    case STORE_MERCHANT:
+      return { ...state, merchant: action.payload };
     // Dispatch in App client-side
     // Check if action dispatched is SET_CUSTOMER and act on that
     case CLEAR_CUSTOMER:

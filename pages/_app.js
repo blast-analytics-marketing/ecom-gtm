@@ -73,6 +73,13 @@ const MyApp = ({Component, pageProps}) => {
       })
     });
 
+    commerce.merchants.about().then((res) => {
+      store.dispatch({
+        type: 'STORE_MERCHANT',
+        payload: res
+      })
+    });
+
   }, [store])
   return (
     <Provider store={store}>
