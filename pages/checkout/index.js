@@ -885,7 +885,8 @@ export async function getStaticProps() {
   return {
     props: {
       page: 'Checkout',
-      category: 'Checkout'
+      category: 'Checkout',
+      title: 'Checkout | Blast Analytics | Store'
     }, // is passed up to the custom app as pageProps
   }
 }

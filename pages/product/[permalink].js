@@ -156,10 +156,12 @@ export const getStaticPaths = async () => {
 }
 
 export async function getStaticProps({params: {permalink}}) {
+  const formattedTitle = permalink.split('-').map(item => item.charAt(0).toUpperCase() + item.slice(1)).join(' ');
   return {
     props: {
       page: permalink.split('-').map(item => item.charAt(0).toUpperCase() + item.slice(1)).join(' '),
-      category: 'PDP'
+      category: 'PDP',
+      title: `${formattedTitle} | Blast Analytics | Store`
     }, // is passed up to the custom app as pageProps
   }
 }

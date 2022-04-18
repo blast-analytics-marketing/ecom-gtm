@@ -328,7 +328,8 @@ export async function getStaticProps() {
   return {
     props: {
       page: 'Order History',
-      category: 'Account'
+      category: 'Account',
+      title: 'Order History | Blast Analytics | Store'
     }, // is passed up to the custom app as pageProps
   }
 }

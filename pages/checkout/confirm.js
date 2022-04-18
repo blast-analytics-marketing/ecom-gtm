@@ -21,7 +21,8 @@ export async function getStaticProps() {
   return {
     props: {
       page: 'Order Confirm',
-      category: 'Checkout'
+      category: 'Checkout',
+      title: 'Order Confirm | Blast Analytics | Store'
     }, // is passed up to the custom app as pageProps
   }
 }

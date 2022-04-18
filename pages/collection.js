@@ -22,7 +22,8 @@ export async function getStaticProps() {
   return {
     props: {
       page: 'Shop All',
-      category: 'PLP'
+      category: 'PLP',
+      title: 'Shop All | Blast Analytics | Store'
     }, // is passed up to the custom app as pageProps
   }
 }
