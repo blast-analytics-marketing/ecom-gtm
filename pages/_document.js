@@ -43,16 +43,16 @@ class MyDocument extends Document {
           <meta name="twitter:card" content="summary_large_image" />
           <script
             dangerouslySetInnerHTML={{
-              __html: `<!-- OneTrust Cookies Consent Notice start for ecom-gtm.blastanalytics.com -->`
+              __html: '<!-- OneTrust Cookies Consent Notice start for ecom-gtm.blastanalytics.com -->'
             }} />
-          <script src='https://cdn.cookielaw.org/scripttemplates/otSDKStub.js'  type='text/javascript' charset='UTF-8' data-domain-script='0a2e20ca-0ef2-4525-93b8-9fe45208c9ad' ></script>
+          <script src='https://cdn.cookielaw.org/scripttemplates/otSDKStub.js' async type='text/javascript' charset='UTF-8' data-domain-script='0a2e20ca-0ef2-4525-93b8-9fe45208c9ad' ></script>
           <script
             dangerouslySetInnerHTML={{
-              __html: `function OptanonWrapper() { }`,
+              __html: 'function OptanonWrapper() { }',
             }} />
           <script
             dangerouslySetInnerHTML={{
-              __html: `<!-- OneTrust Cookies Consent Notice end for ecom-gtm.blastanalytics.com -->`
+              __html: '<!-- OneTrust Cookies Consent Notice end for ecom-gtm.blastanalytics.com -->'
             }} />
           <script
             dangerouslySetInnerHTML={{
